@@ -2,6 +2,7 @@ import { useState } from "react";
 import * as Font from "expo-font";
 import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import MainColor from "../mainColor/mainColor";
 
 const StartButtons = (props) => {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -20,11 +21,11 @@ const StartButtons = (props) => {
 
   return (
     <View style={styles.buttons}>
-      {/* <LinearGradient colors={['#985EE1', '#F25656']}> */}
-      <TouchableOpacity style={styles.joinButton} onPress={props.onStartJoin}>
-        <Text style={styles.joinText}>Join</Text>
-      </TouchableOpacity>
-      {/* </LinearGradient> */}
+      <MainColor style={{borderRadius: 16}}>
+        <TouchableOpacity style={styles.joinButton} onPress={props.onStartJoin}>
+          <Text style={styles.joinText}>Join</Text>
+        </TouchableOpacity>
+      </MainColor>
       <TouchableOpacity style={styles.loginButton} onPress={props.onStartLogin}>
         <Text style={styles.loginText}>Login</Text>
       </TouchableOpacity>
@@ -43,7 +44,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 18,
     paddingHorizontal: 113,
-    backgroundColor: "#1A1A1A",
     borderRadius: 16,
   },
   joinText: {

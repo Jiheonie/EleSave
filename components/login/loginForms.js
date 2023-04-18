@@ -9,8 +9,9 @@ import {
   View,
 } from "react-native";
 import { MaterialIcons } from "react-native-vector-icons";
+import MainColor from "../mainColor/mainColor";
 
-const LoginForms = () => {
+const LoginForms = (props) => {
   const [passIsVisible, setPassIsVisible] = useState(false);
   const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -54,9 +55,11 @@ const LoginForms = () => {
         </Pressable>
       </View>
       <Text style={styles.forgotPass}>Forgot your password?</Text>
-      <TouchableOpacity style={styles.loginBtn}>
-        <Text style={styles.LoginText}>Login</Text>
-      </TouchableOpacity>
+      <MainColor style={{ borderRadius: 20, width: "100%" }}>
+        <TouchableOpacity style={styles.loginBtn} onPress={props.onLogin}>
+          <Text style={styles.LoginText}>Login</Text>
+        </TouchableOpacity>
+      </MainColor>
     </View>
   );
 };
@@ -112,7 +115,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 113,
     paddingVertical: 18,
-    backgroundColor: "#000000",
     alignSelf: "stretch",
     width: "100%",
     borderRadius: 20,

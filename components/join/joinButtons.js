@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 import * as Font from "expo-font";
+import MainColor from "../mainColor/mainColor";
 
 const contentWidth = Dimensions.get("window").width;
 const buttonsWidth = contentWidth * 0.93 * 0.88;
@@ -30,9 +31,11 @@ const JoinButtons = () => {
 
   return (
     <View style={styles.joinButtons}>
-      <TouchableOpacity style={styles.joinMember}>
-        <Text style={styles.joinMemberText}>Join</Text>
-      </TouchableOpacity>
+      <MainColor style={{ borderRadius: 16 }}>
+        <TouchableOpacity style={styles.joinMember}>
+          <Text style={styles.joinMemberText}>Join</Text>
+        </TouchableOpacity>
+      </MainColor>
       <Text style={styles.ORText}>OR</Text>
       <TouchableOpacity style={styles.joinMedia}>
         <Image
@@ -74,7 +77,6 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     width: buttonsWidth,
     borderRadius: 16,
-    backgroundColor: "#000000",
   },
   joinMemberText: {
     height: 19,

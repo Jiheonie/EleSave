@@ -46,7 +46,7 @@ const Login = (props) => {
                 We’re so excited to see you again!
               </Text>
             </View>
-            <LoginForms />
+            <LoginForms onLogin={props.onLogin} />
           </View>
         </View>
       </ScrollView>

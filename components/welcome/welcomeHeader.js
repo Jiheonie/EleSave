@@ -1,29 +1,16 @@
-import { useState } from "react";
-import * as Font from "expo-font";
-import { StyleSheet, View, Text } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
-import MaskedView from "@react-native-community/masked-view";
+import { StyleSheet, View } from "react-native";
+import MainColorText from "../mainColor/mainColorText";
+import FontText from "../fontText/fontText";
 
 const WelcomeHeader = () => {
-  const [fontLoaded, setFontLoaded] = useState(false);
-
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      "HKGrotesk-Bold": require("../../assets/fonts/hk-grotesk/HKGrotesk-Bold.otf"),
-      "HKGrotesk-Medium": require("../../assets/fonts/hk-grotesk/HKGrotesk-Medium.otf"),
-    });
-    setFontLoaded(true);
-  };
-
-  if (!fontLoaded) {
-    loadFonts();
-    return null;
-  }
-
   return (
     <View style={styles.headerContainer}>
-      <Text style={styles.title}>EleSave</Text>
-      <Text style={styles.slogan}>Upload in the highest quality</Text>
+      <MainColorText font="HKGrotesk-Bold" style={styles.title}>
+        EleSave
+      </MainColorText>
+      <FontText font="HKGrotesk-Medium" style={styles.slogan}>
+        Upload in the highest quality
+      </FontText>
     </View>
   );
 };
@@ -41,17 +28,14 @@ const styles = StyleSheet.create({
     top: 116,
   },
   title: {
-    width: 112,
-    height: 42,
-    fontFamily: "HKGrotesk-Bold",
     fontSize: 32,
     lineHeight: 42,
     textAlign: "center",
+    backgroundColor: "transparent",
   },
   slogan: {
     width: 257,
     height: 84,
-    fontFamily: "HKGrotesk-Medium",
     fontSize: 32,
     lineHeight: 42,
     textAlign: "center",
