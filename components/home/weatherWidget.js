@@ -1,35 +1,72 @@
-import { useState } from "react";
-import * as Font from "expo-font";
-import { Text, View, StyleSheet } from "react-native";
+import { useEffect, useState } from "react";
+import { View, StyleSheet } from "react-native";
 
 import MainColor from "../mainColor/mainColor";
+import FontText from "../fontText/fontText";
+import AIO_account from "../../constances/adafruit";
 
 const WeatherWidget = () => {
-  const [temps, setTemps] = useState(32)
+  const [temps, setTemps] = useState(32);
 
-  const [fontLoaded, setFontLoaded] = useState(false);
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      "SF-Pro-Display-Bold": require("../../assets/fonts/sf-pro/SF-Pro-Display-Bold.otf"),
-      "SF-Pro-Display-Regular": require("../../assets/fonts/sf-pro/SF-Pro-Display-Regular.otf"),
-      "SF-Pro-Display-RegularItalic": require("../../assets/fonts/sf-pro/SF-Pro-Display-RegularItalic.otf"),
+  const feedKey = "nhiet-do";
+
+  const url = `https://io.adafruit.com/api/v2/${AIO_account.username}/feeds/${feedKey}/data/last`;
+
+  useEffect(() => {
+    fetch(url, {
+      headers: {
+        "X-AIO-Key": AIO_account.key,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Latest value:", data.value);
+        setTemps(data.value);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch latest value:", error);
+      });
+  }, []);
+
+  const mqtt = require("precompiled-mqtt");
+  const client = mqtt.connect("mqtts://io.adafruit.com/", {
+    username: AIO_account.username,
+    password: AIO_account.key,
+  });
+
+  const feedTopic = `/${feedKey}/json`;
+
+  client.on("connect", () => {
+    console.log("MQTT Connected!");
+
+    client.subscribe(feedTopic, { qos: 1 }, (err) => {
+      if (err) {
+        console.error("Failed to subscribe to feed:", err);
+      } else {
+        console.log("Subscribed to feed successfully!");
+      }
     });
-    setFontLoaded(true);
-  };
+  });
 
-  if (!fontLoaded) {
-    loadFonts();
-    return null;
-  }
+  client.on("message", function (topic, message) {
+    console.log("Received message:", message.toString());
+    setTemps(message.toString());
+  });
 
   return (
     <MainColor style={styles.weatherWidgetContainer}>
       <View style={styles.locationFrame}>
-        <Text style={styles.locationTitle}>My Location</Text>
-        <Text style={styles.city}>Ho Chi Minh</Text>
+        <FontText font="SF-Pro-Display-Bold" style={styles.locationTitle}>
+          My Location
+        </FontText>
+        <FontText font="SF-Pro-Display-Regular" style={styles.city}>
+          Ho Chi Minh
+        </FontText>
       </View>
       <View style={styles.tempsFrame}>
-        <Text style={styles.temps}>{temps}°C</Text>
+        <FontText font="SF-Pro-Display-RegularItalic" style={styles.temps}>
+          {temps}°C
+        </FontText>
       </View>
     </MainColor>
   );
@@ -39,7 +76,7 @@ export default WeatherWidget;
 
 const styles = StyleSheet.create({
   weatherWidgetContainer: {
-    width: '100%',
+    width: "100%",
     borderRadius: 24,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -49,23 +86,20 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   locationTitle: {
-    fontFamily: "SF-Pro-Display-Bold",
     fontSize: 22,
-    color: "#FFF"
+    color: "#FFF",
   },
   city: {
-    fontFamily: "SF-Pro-Display-Regular",
-    fontSize: 13, 
+    fontSize: 13,
     color: "#FFF",
-    opacity: 0.6
+    opacity: 0.6,
   },
   tempsFrame: {
     justifyContent: "center",
     paddingRight: 25,
   },
   temps: {
-    fontFamily: "SF-Pro-Display-RegularItalic",
-    fontSize: 48,
-    color: "#FFF"
-  }
+    fontSize: 44,
+    color: "#FFF",
+  },
 });

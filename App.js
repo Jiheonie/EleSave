@@ -26,7 +26,7 @@ const App = () => {
 
   useEffect(() => {
     console.log("App Log: devices");
-    console.log(devices);
+    // console.log(devices);
   }, [devices]);
 
   useEffect(() => {
@@ -69,7 +69,6 @@ const App = () => {
     [devices, selectedSegment, pickedDevice]
   );
 
-  // return <View style={styles.appContainer}>{screen}</View>;
   return (
     <AppContext.Provider value={contextValue}>
       <View style={styles.appContainer}>{screen}</View>
