@@ -1,6 +1,6 @@
 const AIO_account = {
   username: "nghiachutuan68",
-  key: "<Given Key>",
+  key: "<given key>",
 };
 
 export default AIO_account;
