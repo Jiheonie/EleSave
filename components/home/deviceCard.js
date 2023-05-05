@@ -9,7 +9,7 @@ import { useContext, useState } from "react";
 import { AppContext } from "../../App";
 
 const DeviceCard = (props) => {
-  const { devices, setDevices, setPickedDevice, setIsAdjusting } =
+  const { setPickedDevice, setIsAdjusting } =
     useContext(AppContext);
 
   const [cardDevice, setCardDevice] = useState(props.device);
@@ -23,13 +23,6 @@ const DeviceCard = (props) => {
       return newDevice;
     });
 
-    // const index = devices.findIndex((item) => item.label === cardDevice.label);
-
-    // setDevices((devicesList) => {
-    //   const newDeviceList = Object.create(devicesList);
-    //   newDeviceList.splice(index, 1, cardDevice);
-    //   return newDeviceList;
-    // });
   };
 
   const pressCard = () => {

@@ -13,6 +13,7 @@ const FontText = (props) => {
       "SF-Pro-Display-ThinItalic": require("../../assets/fonts/sf-pro/SF-Pro-Display-ThinItalic.otf"),
       "SF-Pro-Display-Medium": require("../../assets/fonts/sf-pro/SF-Pro-Display-Medium.otf"),
       "HKGrotesk-Bold": require("../../assets/fonts/hk-grotesk/HKGrotesk-Bold.otf"),
+      "HKGrotesk-Regular": require("../../assets/fonts/hk-grotesk/HKGrotesk-Regular.otf"),
       "HKGrotesk-Medium": require("../../assets/fonts/hk-grotesk/HKGrotesk-Medium.otf"),
     });
     setFontLoaded(true);

@@ -1,24 +1,10 @@
-import { useState } from "react";
-import * as Font from "expo-font";
-
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 
 import MainColor from "../mainColor/mainColor";
+import FontText from "../fontText/fontText";
 
 const CondCard = (props) => {
-  const [fontLoaded, setFontLoaded] = useState(false);
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      "SF-Pro-Display-RegularItalic": require("../../assets/fonts/sf-pro/SF-Pro-Display-RegularItalic.otf"),
-    });
-    setFontLoaded(true);
-  };
-
-  if (!fontLoaded) {
-    loadFonts();
-    return null;
-  }
 
   return (
     <View style={styles.condCard}>
@@ -27,11 +13,11 @@ const CondCard = (props) => {
           <MaterialCommunityIcons name={props.icon} size={44} color="white" />
         </View>
       </MainColor>
-      <Text style={styles.title}>{props.title}</Text>
-      <Text style={styles.value}>
+      <FontText font="SF-Pro-Display-RegularItalic" style={styles.title}>{props.title}</FontText>
+      <FontText font="SF-Pro-Display-RegularItalic" style={styles.value}>
         {props.value}
         {props.unit}
-      </Text>
+      </FontText>
     </View>
   );
 };
@@ -62,14 +48,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontFamily: "SF-Pro-Display-RegularItalic",
     fontSize: 20,
     textAlign: "center",
     color: "#000",
     opacity: 0.7,
   },
   value: {
-    fontFamily: "SF-Pro-Display-RegularItalic",
     fontSize: 20,
     textAlign: "center",
     color: "#000",

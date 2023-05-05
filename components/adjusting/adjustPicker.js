@@ -5,6 +5,7 @@ import RNPickerSelect from "react-native-picker-select";
 import { LinearGradient } from "expo-linear-gradient";
 import { AppContext } from "../../App";
 
+
 const AdjustPicker = () => {
   const [fontLoaded, setFontLoaded] = useState(false);
   const loadFonts = async () => {

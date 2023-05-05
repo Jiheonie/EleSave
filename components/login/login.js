@@ -1,33 +1,17 @@
-import { useState } from "react";
-import * as Font from "expo-font";
 import {
   StyleSheet,
   Modal,
   View,
   TouchableOpacity,
-  Text,
   ScrollView,
 } from "react-native";
 import { MaterialIcons } from "react-native-vector-icons";
 
 import LoginForms from "./loginForms";
 
+import FontText from "../fontText/fontText";
+
 const Login = (props) => {
-  const [fontLoaded, setFontLoaded] = useState(false);
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      "HKGrotesk-Medium": require("../../assets/fonts/hk-grotesk/HKGrotesk-Medium.otf"),
-      "HKGrotesk-Bold": require("../../assets/fonts/hk-grotesk/HKGrotesk-Bold.otf"),
-      "HKGrotesk-Regular": require("../../assets/fonts/hk-grotesk/HKGrotesk-Regular.otf"),
-    });
-    setFontLoaded(true);
-  };
-
-  if (!fontLoaded) {
-    loadFonts();
-    return null;
-  }
-
   return (
     <Modal animationType="fade">
       <ScrollView alwaysBounceVertical={false}>
@@ -38,13 +22,13 @@ const Login = (props) => {
               onPress={props.onEndLogin}
             >
               <MaterialIcons name="chevron-left" size={24} color="#53575E" />
-              <Text style={styles.backText}>Back</Text>
+              <FontText font="HKGrotesk-Medium" style={styles.backText}>Back</FontText>
             </TouchableOpacity>
             <View style={styles.loginHeader}>
-              <Text style={styles.greetingText}>Welcome back!</Text>
-              <Text style={styles.extraGreetingText}>
+              <FontText font="HKGrotesk-Bold" style={styles.greetingText}>Welcome back!</FontText>
+              <FontText font="HKGrotesk-Regular" style={styles.extraGreetingText}>
                 We’re so excited to see you again!
-              </Text>
+              </FontText>
             </View>
             <LoginForms onLogin={props.onLogin} />
           </View>
@@ -78,7 +62,6 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   backText: {
-    fontFamily: "HKGrotesk-Medium",
     fontSize: 16,
     textAlign: "center",
     color: "#53575E",
@@ -89,13 +72,11 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   greetingText: {
-    fontFamily: "HKGrotesk-Bold",
     fontSize: 26,
     lineHeight: 34,
     textAlign: "center",
   },
   extraGreetingText: {
-    fontFamily: "HKGrotesk-Regular",
     fontSize: 13,
     lineHeight: 17,
     textAlign: "center",

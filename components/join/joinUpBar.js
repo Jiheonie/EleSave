@@ -1,21 +1,8 @@
-import { useState } from "react";
-import * as Font from "expo-font";
-import { StyleSheet, TouchableOpacity, View, Text, Image } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
+
+import FontText from "../fontText/fontText";
 
 const JoinUpBar = (props) => {
-  const [fontLoaded, setFontLoaded] = useState(false);
-
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      "HKGrotesk-Bold": require("../../assets/fonts/hk-grotesk/HKGrotesk-Bold.otf"),
-    });
-    setFontLoaded(true);
-  };
-
-  if (!fontLoaded) {
-    loadFonts();
-    return null;
-  }
 
   return (
     <View style={styles.upBarContainer}>
@@ -25,7 +12,7 @@ const JoinUpBar = (props) => {
           style={styles.closeIcon}
         />
       </TouchableOpacity>
-      <Text style={styles.title}>Join EleSave</Text>
+      <FontText font="HKGrotesk-Bold" style={styles.title}>Join EleSave</FontText>
     </View>
   );
 };
@@ -54,7 +41,6 @@ const styles = StyleSheet.create({
   title: {
     width: "100%",
     height: 31,
-    fontFamily: "HKGrotesk-Bold",
     fontSize: 24,
     textAlign: "center",
     color: "#000000",

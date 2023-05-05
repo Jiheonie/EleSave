@@ -5,7 +5,6 @@ import MainColor from "../mainColor/mainColor";
 import AdjustPannelBtns from "./adjustPannelBtns";
 import FontText from "../fontText/fontText";
 
-import AIO_account from "../../constances/adafruit";
 import DevicePower from "../../constances/device_power";
 import { AppContext } from "../../App";
 

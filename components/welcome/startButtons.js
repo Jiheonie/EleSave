@@ -1,33 +1,18 @@
-import { useState } from "react";
-import * as Font from "expo-font";
-import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
-import LinearGradient from "react-native-linear-gradient";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import MainColor from "../mainColor/mainColor";
+import FontText from "../fontText/fontText";
 
 const StartButtons = (props) => {
-  const [fontLoaded, setFontLoaded] = useState(false);
-
-  const loadFonts = async () => {
-    await Font.loadAsync({
-      "HKGrotesk-Bold": require("../../assets/fonts/hk-grotesk/HKGrotesk-Bold.otf"),
-    });
-    setFontLoaded(true);
-  };
-
-  if (!fontLoaded) {
-    loadFonts();
-    return null;
-  }
 
   return (
     <View style={styles.buttons}>
       <MainColor style={{borderRadius: 16}}>
         <TouchableOpacity style={styles.joinButton} onPress={props.onStartJoin}>
-          <Text style={styles.joinText}>Join</Text>
+          <FontText font="HKGrotesk-Bold" style={styles.joinText}>Join</FontText>
         </TouchableOpacity>
       </MainColor>
       <TouchableOpacity style={styles.loginButton} onPress={props.onStartLogin}>
-        <Text style={styles.loginText}>Login</Text>
+        <FontText font="HKGrotesk-Bold" style={styles.loginText}>Login</FontText>
       </TouchableOpacity>
     </View>
   );
@@ -47,7 +32,6 @@ const styles = StyleSheet.create({
     borderRadius: 16,
   },
   joinText: {
-    fontFamily: "HKGrotesk-Bold",
     fontSize: 16,
     textAlign: "center",
     color: "#FFFFFF",
@@ -65,7 +49,6 @@ const styles = StyleSheet.create({
   },
   loginText: {
     width: 165,
-    fontFamily: "HKGrotesk-Bold",
     fontSize: 16,
     textAlign: "center",
     color: "#FFFFFF",
