@@ -34,7 +34,7 @@ const WeatherWidget = () => {
     password: AIO_account.key,
   });
 
-  const feedTopic = `/${feedKey}/json`;
+  const feedTopic = "nghiachutuan68/feeds/nhiet-do";
 
   client.on("connect", () => {
     console.log("MQTT Connected!");

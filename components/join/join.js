@@ -1,5 +1,4 @@
 import { Dimensions, View, Modal, StyleSheet, ScrollView } from "react-native";
-import DropShadow from "react-native-drop-shadow";
 
 import JoinUpBar from "./joinUpBar";
 import JoinContent from "./joinContent";
@@ -10,7 +9,7 @@ const windowHeight = Dimensions.get("window").height;
 const Join = (props) => {
   return (
     <Modal animationType="slide">
-      <DropShadow style={styles.modalDropShadow}>
+      <View style={styles.modalDropShadow}>
         <ScrollView alwaysBounceVertical={false}>
           <View style={styles.joinModal}>
             <JoinUpBar onCancel={props.onEndJoin} />
@@ -18,7 +17,7 @@ const Join = (props) => {
             <JoinFooter />
           </View>
         </ScrollView>
-      </DropShadow>
+      </View>
     </Modal>
   );
 };

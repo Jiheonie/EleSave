@@ -9,33 +9,15 @@ import AIO_account from "../../constances/adafruit";
 import DevicePower from "../../constances/device_power";
 import { AppContext } from "../../App";
 
+import { sendToAdafruitIO } from "../../services/httpServices";
+
 const AdjustPannel = () => {
   const { pickedDevice, setPickedDevice } = useContext(AppContext);
 
   const [intervalId, setIntervalId] = useState(null);
 
   useEffect(() => {
-    const sendToAdafruitIO = async (newValue) => {
-      const requestOptions = {
-        method: "POST",
-        headers: {
-          "X-AIO-Key": AIO_account.key,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ value: newValue }),
-      };
-      const response = await fetch(
-        `https://io.adafruit.com/api/v2/${AIO_account.username}/feeds/${pickedDevice.aio_feed_name}/data`,
-        requestOptions
-      );
-      if (!response.ok) {
-        console.error("Failed to send data to Adafruit IO");
-      } else {
-        console.log("Send completely!!");
-      }
-    };
-
-    sendToAdafruitIO(pickedDevice.power);
+    sendToAdafruitIO(pickedDevice);
   }, [pickedDevice.power]);
 
   const handleUpButtonPressIn = () => {
