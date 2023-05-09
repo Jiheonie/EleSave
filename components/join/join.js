@@ -3,22 +3,30 @@ import { Dimensions, View, Modal, StyleSheet, ScrollView } from "react-native";
 import JoinUpBar from "./joinUpBar";
 import JoinContent from "./joinContent";
 import JoinFooter from "./joinFooter";
+import { createContext, useState } from "react";
+import User from "../../class/user";
 
 const windowHeight = Dimensions.get("window").height;
 
+export const JoinContext = createContext();
+
 const Join = (props) => {
+  const [newUser, setNewUser] = useState(new User());
+
   return (
-    <Modal animationType="slide">
-      <View style={styles.modalDropShadow}>
-        <ScrollView alwaysBounceVertical={false}>
-          <View style={styles.joinModal}>
-            <JoinUpBar onCancel={props.onEndJoin} />
-            <JoinContent onLogin={props.onLogin} />
-            <JoinFooter />
-          </View>
-        </ScrollView>
-      </View>
-    </Modal>
+    <JoinContext.Provider value={{ newUser, setNewUser }}>
+      <Modal animationType="slide">
+        <View style={styles.modalDropShadow}>
+          <ScrollView alwaysBounceVertical={false}>
+            <View style={styles.joinModal}>
+              <JoinUpBar onCancel={props.onEndJoin} />
+              <JoinContent onLogin={props.onLogin} />
+              <JoinFooter />
+            </View>
+          </ScrollView>
+        </View>
+      </Modal>
+    </JoinContext.Provider>
   );
 };
 

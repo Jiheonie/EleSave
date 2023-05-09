@@ -8,39 +8,58 @@ import {
 import MainColor from "../mainColor/mainColor";
 import FontText from "../fontText/fontText";
 
+import { storeUser } from "../../services/httpServices";
+import { useContext } from "react";
+import { JoinContext } from "./join";
+
 const contentWidth = Dimensions.get("window").width;
 const buttonsWidth = contentWidth * 0.93 * 0.88;
 
 const JoinButtons = () => {
+  const { newUser } = useContext(JoinContext);
+
+  const joinHandler = () => {
+    storeUser(newUser);
+  };
 
   return (
     <View style={styles.joinButtons}>
       <MainColor style={{ borderRadius: 16 }}>
-        <TouchableOpacity style={styles.joinMember}>
-          <FontText font="HKGrotesk-Bold" style={styles.joinMemberText}>Join</FontText>
+        <TouchableOpacity style={styles.joinMember} onPress={joinHandler}>
+          <FontText font="HKGrotesk-Bold" style={styles.joinMemberText}>
+            Join
+          </FontText>
         </TouchableOpacity>
       </MainColor>
-      <FontText font="HKGrotesk-Regular" style={styles.ORText}>OR</FontText>
+      <FontText font="HKGrotesk-Regular" style={styles.ORText}>
+        OR
+      </FontText>
       <TouchableOpacity style={styles.joinMedia}>
         <Image
           source={require("../../assets/joinIcon/apple-logo.png")}
           style={styles.joinIcon}
         />
-        <FontText font="HKGrotesk-Bold" style={styles.joinMediaText}>Continue with Apple</FontText>
+        <FontText font="HKGrotesk-Bold" style={styles.joinMediaText}>
+          Continue with Apple
+        </FontText>
       </TouchableOpacity>
       <TouchableOpacity style={styles.joinMedia}>
         <Image
           source={require("../../assets/joinIcon/google.png")}
           style={styles.joinIcon}
         />
-        <FontText font="HKGrotesk-Bold" style={styles.joinMediaText}>Continue with Google</FontText>
+        <FontText font="HKGrotesk-Bold" style={styles.joinMediaText}>
+          Continue with Google
+        </FontText>
       </TouchableOpacity>
       <TouchableOpacity style={styles.joinMedia}>
         <Image
           source={require("../../assets/joinIcon/facebook.png")}
           style={styles.joinIcon}
         />
-        <FontText font="HKGrotesk-Bold" style={styles.joinMediaText}>Continue with Facebook</FontText>
+        <FontText font="HKGrotesk-Bold" style={styles.joinMediaText}>
+          Continue with Facebook
+        </FontText>
       </TouchableOpacity>
     </View>
   );
