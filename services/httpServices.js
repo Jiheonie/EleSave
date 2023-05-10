@@ -35,7 +35,17 @@ const fetchUsers = async (userData) => {
 
   const users = [];
 
-  // for (const )
+  for (const key in response.data) {
+    const userObj = {
+      id: key,
+      name: response.data[key].name,
+      email: response.data[key].email,
+      pass: response.data[key].pass,
+    };
+    users.push(userObj);
+  }
+
+  console.log(users);
 };
 
 export { sendToAdafruitIO, storeUser };

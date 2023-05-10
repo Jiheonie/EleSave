@@ -30,7 +30,7 @@ const Login = (props) => {
                 We’re so excited to see you again!
               </FontText>
             </View>
-            <LoginForms onLogin={props.onLogin} />
+            <LoginForms />
           </View>
         </View>
       </ScrollView>

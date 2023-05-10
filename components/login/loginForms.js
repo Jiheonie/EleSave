@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import * as Font from "expo-font";
 import {
   Pressable,
@@ -10,8 +10,14 @@ import {
 } from "react-native";
 import { MaterialIcons } from "react-native-vector-icons";
 import MainColor from "../mainColor/mainColor";
+import { AppContext } from "../../App";
+import User from "../../class/user";
 
 const LoginForms = (props) => {
+  const { setIsLogged } = useContext(AppContext);
+
+  const [logUser, setLogUser] = useState(new User());
+
   const [passIsVisible, setPassIsVisible] = useState(false);
   const [fontLoaded, setFontLoaded] = useState(false);
 
@@ -33,16 +39,30 @@ const LoginForms = (props) => {
     setPassIsVisible(!passIsVisible);
   };
 
+  const emailChangeHandler = (value) => {
+    const updatedUser = {...logUser, email: value}
+    setLogUser(updatedUser)
+  }
+
+  const passChangeHandler = (value) => {
+    const updatedUser = {...logUser, pass: value}
+    setLogUser(updatedUser)
+  }
+
   return (
     <View style={styles.LoginFormsContainer}>
       <Text style={styles.accInfoText}>Account Information</Text>
       <TextInput
         style={styles.loginInput}
-        placeholder="Email or phone Number"
+        value={logUser.email}
+        onChange={emailChangeHandler}
+        placeholder="Email"
       />
       <View style={styles.passInput}>
         <TextInput
           style={styles.loginInput}
+          value={logUser.pass}
+          onChange={passChangeHandler}
           secureTextEntry={!passIsVisible}
           placeholder="Password"
         />
@@ -56,7 +76,10 @@ const LoginForms = (props) => {
       </View>
       <Text style={styles.forgotPass}>Forgot your password?</Text>
       <MainColor style={{ borderRadius: 20, width: "100%" }}>
-        <TouchableOpacity style={styles.loginBtn} onPress={props.onLogin}>
+        <TouchableOpacity
+          style={styles.loginBtn}
+          onPress={setIsLogged.bind(this, true)}
+        >
           <Text style={styles.LoginText}>Login</Text>
         </TouchableOpacity>
       </MainColor>

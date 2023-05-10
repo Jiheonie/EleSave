@@ -1,10 +1,19 @@
-import { Dimensions, View, Modal, StyleSheet, ScrollView } from "react-native";
+import {
+  Dimensions,
+  View,
+  Modal,
+  StyleSheet,
+  ScrollView,
+  Alert,
+} from "react-native";
 
 import JoinUpBar from "./joinUpBar";
 import JoinContent from "./joinContent";
 import JoinFooter from "./joinFooter";
 import { createContext, useState } from "react";
 import User from "../../class/user";
+
+import { createUser } from "../../utils/auth";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -13,8 +22,38 @@ export const JoinContext = createContext();
 const Join = (props) => {
   const [newUser, setNewUser] = useState(new User());
 
+  const [credentialsInvalid, setCredentialsInvalid] = useState({
+    email: false,
+    password: false,
+  });
+
+  const joinHandler = async ({ email, password }) => {
+    await createUser(email, password);
+  };
+
+  const submitHandler = (credentials) => {
+    let { email, password } = credentials;
+
+    email = email.trim();
+    password = password.trim();
+
+    const emailIsValid = email.includes("@");
+    const passwordIsValid = password.length > 6;
+
+    if (!emailIsValid || !passwordIsValid) {
+      Alert.alert("Invalid input", "Please check your entered credentials.");
+      setCredentialsInvalid({
+        email: !emailIsValid,
+        password: !passwordIsValid,
+      });
+      return;
+    }
+
+    joinHandler({ email, password });
+  };
+
   return (
-    <JoinContext.Provider value={{ newUser, setNewUser }}>
+    <JoinContext.Provider value={{ newUser, setNewUser, submitHandler }}>
       <Modal animationType="slide">
         <View style={styles.modalDropShadow}>
           <ScrollView alwaysBounceVertical={false}>

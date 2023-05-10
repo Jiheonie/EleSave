@@ -49,7 +49,7 @@ const App = () => {
   }, [pickedDevice]);
 
   let screen = !isLogged ? (
-    <Welcome onLogin={setIsLogged} />
+    <Welcome />
   ) : !isAdjusting ? (
     <Home />
   ) : (
@@ -58,6 +58,7 @@ const App = () => {
 
   const contextValue = useMemo(
     () => ({
+      setIsLogged,
       selectedSegment,
       setSelectedSegment,
       devices,

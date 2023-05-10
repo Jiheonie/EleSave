@@ -27,16 +27,12 @@ const Welcome = (props) => {
     setLoginModalIsVisible(false);
   };
 
-  const login = () => {
-    props.onLogin(true);
-  };
-
   return (
     <View style={styles.welcomeContainer}>
       <WelcomeHeader />
       <StartActivities onStartJoin={startJoin} onStartLogin={startLogin} />
       {joinModalIsVisible && <Join onEndJoin={endJoin} onLogin={startLogin} />}
-      {loginModalIsVisible && <Login onEndLogin={endLogin} onLogin={login} />}
+      {loginModalIsVisible && <Login onEndLogin={endLogin}  />}
     </View>
   );
 };

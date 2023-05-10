@@ -16,10 +16,11 @@ const contentWidth = Dimensions.get("window").width;
 const buttonsWidth = contentWidth * 0.93 * 0.88;
 
 const JoinButtons = () => {
-  const { newUser } = useContext(JoinContext);
+  const { newUser, submitHandler } = useContext(JoinContext);
 
   const joinHandler = () => {
     storeUser(newUser);
+    submitHandler({ email: newUser.email, password: newUser.pass });
   };
 
   return (
