@@ -4,7 +4,9 @@ import WelcomeHeader from "../components/welcome/welcomeHeader";
 import StartActivities from "../components/welcome/startActivities";
 import Join from "../components/join/join";
 import Login from "../components/login/login";
-import { useState } from "react";
+import { createContext, useState } from "react";
+
+export const WelcomeContext = createContext();
 
 const Welcome = (props) => {
   const [joinModalIsVisible, setJoinModalIsVisible] = useState(false);
@@ -28,12 +30,16 @@ const Welcome = (props) => {
   };
 
   return (
-    <View style={styles.welcomeContainer}>
-      <WelcomeHeader />
-      <StartActivities onStartJoin={startJoin} onStartLogin={startLogin} />
-      {joinModalIsVisible && <Join onEndJoin={endJoin} onLogin={startLogin} />}
-      {loginModalIsVisible && <Login onEndLogin={endLogin}  />}
-    </View>
+    <WelcomeContext.Provider value={{ startLogin }}>
+      <View style={styles.welcomeContainer}>
+        <WelcomeHeader />
+        <StartActivities onStartJoin={startJoin} onStartLogin={startLogin} />
+        {joinModalIsVisible && (
+          <Join onEndJoin={endJoin} onLogin={startLogin} />
+        )}
+        {loginModalIsVisible && <Login onEndLogin={endLogin} />}
+      </View>
+    </WelcomeContext.Provider>
   );
 };
 

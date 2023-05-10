@@ -10,10 +10,12 @@ import {
 import JoinUpBar from "./joinUpBar";
 import JoinContent from "./joinContent";
 import JoinFooter from "./joinFooter";
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import User from "../../class/user";
 
 import { createUser } from "../../utils/auth";
+import { storeUser } from "../../services/httpServices";
+import { WelcomeContext } from "../../screens/welcomeScreen";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -22,6 +24,8 @@ export const JoinContext = createContext();
 const Join = (props) => {
   const [newUser, setNewUser] = useState(new User());
 
+  const { startLogin } = useContext(WelcomeContext);
+
   const [credentialsInvalid, setCredentialsInvalid] = useState({
     email: false,
     password: false,
@@ -29,6 +33,18 @@ const Join = (props) => {
 
   const joinHandler = async ({ email, password }) => {
     await createUser(email, password);
+
+    storeUser(newUser);
+
+    setNewUser({
+      name: "",
+      email: "",
+      pass: "",
+    });
+
+    Alert.alert("Done", "Sign up succesfully!");
+
+    startLogin();
   };
 
   const submitHandler = (credentials) => {

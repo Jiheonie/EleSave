@@ -8,7 +8,6 @@ import {
 import MainColor from "../mainColor/mainColor";
 import FontText from "../fontText/fontText";
 
-import { storeUser } from "../../services/httpServices";
 import { useContext } from "react";
 import { JoinContext } from "./join";
 
@@ -19,7 +18,6 @@ const JoinButtons = () => {
   const { newUser, submitHandler } = useContext(JoinContext);
 
   const joinHandler = () => {
-    storeUser(newUser);
     submitHandler({ email: newUser.email, password: newUser.pass });
   };
 

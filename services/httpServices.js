@@ -5,6 +5,7 @@ import AIO_account from "../constances/adafruit";
 const BACKEND_URL =
   "https://react-native-course-f3f0a-default-rtdb.asia-southeast1.firebasedatabase.app";
 
+
 const sendToAdafruitIO = async (device) => {
   const requestOptions = {
     method: "POST",
@@ -24,6 +25,7 @@ const sendToAdafruitIO = async (device) => {
     console.log("Send completely!!");
   }
 };
+
 
 const storeUser = (userData) => {
   axios.post(`${BACKEND_URL}/users.json`, userData);

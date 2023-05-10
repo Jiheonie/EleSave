@@ -13,7 +13,7 @@ import MainColor from "../mainColor/mainColor";
 import { AppContext } from "../../App";
 import User from "../../class/user";
 
-const LoginForms = (props) => {
+const LoginForms = () => {
   const { setIsLogged } = useContext(AppContext);
 
   const [logUser, setLogUser] = useState(new User());
