@@ -7,19 +7,25 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
 } from "react-native";
 import { MaterialIcons } from "react-native-vector-icons";
 import MainColor from "../mainColor/mainColor";
 import { AppContext } from "../../App";
-import User from "../../class/user";
+import { login } from "../../utils/auth";
+import { AuthContext } from "../../store/authContext";
 
 const LoginForms = () => {
   const { setIsLogged } = useContext(AppContext);
 
-  const [logUser, setLogUser] = useState(new User());
-
   const [passIsVisible, setPassIsVisible] = useState(false);
+
   const [fontLoaded, setFontLoaded] = useState(false);
+
+  const [enteredEmail, setEnteredEmail] = useState("");
+  const [enteredPassword, setEnteredPassword] = useState("");
+
+  const authCtx = useContext(AuthContext);
 
   const loadFonts = async () => {
     await Font.loadAsync({
@@ -29,7 +35,6 @@ const LoginForms = () => {
     });
     setFontLoaded(true);
   };
-
   if (!fontLoaded) {
     loadFonts();
     return null;
@@ -40,29 +45,66 @@ const LoginForms = () => {
   };
 
   const emailChangeHandler = (value) => {
-    const updatedUser = {...logUser, email: value}
-    setLogUser(updatedUser)
-  }
+    setEnteredEmail(value);
+  };
 
   const passChangeHandler = (value) => {
-    const updatedUser = {...logUser, pass: value}
-    setLogUser(updatedUser)
-  }
+    setEnteredPassword(value);
+  };
+
+  const loginHandler = async ({ email, password }) => {
+    try {
+      const token = await login(email, password);
+      authCtx.authenticate(token);
+      console.log(authCtx.isAuthenticated)
+    } catch (error) {
+      Alert.alert("Login Failed", "Check Information input again!");
+    }
+  };
+
+  const submitHandler = (credentials) => {
+    let { email, password } = credentials;
+
+    console.log(credentials)
+
+    email = email.trim();
+    password = password.trim();
+
+    const emailIsValid = email.includes("@");
+    const passwordIsValid = password.length > 6;
+
+    if (!emailIsValid || !passwordIsValid) {
+      Alert.alert("Invalid input", "Please check your entered credentials.");
+      setCredentialsInvalid({
+        email: !emailIsValid,
+        password: !passwordIsValid,
+      });
+      return;
+    }
+
+    loginHandler({ email, password });
+
+    if (authCtx.isAuthenticated) setIsLogged(true);
+  };
+
+  const loginDoneHandler = () => {
+    submitHandler({ email: enteredEmail, password: enteredPassword });
+  };
 
   return (
     <View style={styles.LoginFormsContainer}>
       <Text style={styles.accInfoText}>Account Information</Text>
       <TextInput
         style={styles.loginInput}
-        value={logUser.email}
-        onChange={emailChangeHandler}
+        value={enteredEmail}
+        onChangeText={emailChangeHandler}
         placeholder="Email"
       />
       <View style={styles.passInput}>
         <TextInput
           style={styles.loginInput}
-          value={logUser.pass}
-          onChange={passChangeHandler}
+          value={enteredPassword}
+          onChangeText={passChangeHandler}
           secureTextEntry={!passIsVisible}
           placeholder="Password"
         />
@@ -76,10 +118,7 @@ const LoginForms = () => {
       </View>
       <Text style={styles.forgotPass}>Forgot your password?</Text>
       <MainColor style={{ borderRadius: 20, width: "100%" }}>
-        <TouchableOpacity
-          style={styles.loginBtn}
-          onPress={setIsLogged.bind(this, true)}
-        >
+        <TouchableOpacity style={styles.loginBtn} onPress={loginDoneHandler}>
           <Text style={styles.LoginText}>Login</Text>
         </TouchableOpacity>
       </MainColor>

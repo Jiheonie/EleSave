@@ -56,6 +56,7 @@ const JoinForms = () => {
         style={styles.joinInput}
         value={newUser.pass}
         onChangeText={passChangeHandler}
+        secureTextEntry={true}
         placeholder="Password"
       />
     </View>

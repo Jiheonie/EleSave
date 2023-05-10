@@ -16,6 +16,7 @@ import User from "../../class/user";
 import { createUser } from "../../utils/auth";
 import { storeUser } from "../../services/httpServices";
 import { WelcomeContext } from "../../screens/welcomeScreen";
+import { AuthContext } from "../../store/authContext";
 
 const windowHeight = Dimensions.get("window").height;
 
@@ -31,20 +32,29 @@ const Join = (props) => {
     password: false,
   });
 
+  const authCtx = useContext(AuthContext);
+
   const joinHandler = async ({ email, password }) => {
-    await createUser(email, password);
+    try {
+      const token = await createUser(email, password);
+      console.log(2);
+      authCtx.authenticate(token);
+    } catch (error) {
+      console.log(error)
+      Alert.alert("Sign up Failed", "Check Information input again!");
+    } finally {
+      storeUser(newUser);
 
-    storeUser(newUser);
+      setNewUser({
+        name: "",
+        email: "",
+        pass: "",
+      });
 
-    setNewUser({
-      name: "",
-      email: "",
-      pass: "",
-    });
+      Alert.alert("Done", "Sign up succesfully!");
 
-    Alert.alert("Done", "Sign up succesfully!");
-
-    startLogin();
+      startLogin();
+    }
   };
 
   const submitHandler = (credentials) => {

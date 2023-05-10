@@ -2,10 +2,11 @@ import { StyleSheet, View } from "react-native";
 
 import Welcome from "./screens/welcomeScreen";
 import Adjusting from "./screens/adjustingScreen";
-import { useState, createContext, useEffect, useMemo } from "react";
+import { useState, createContext, useEffect, useMemo, useContext } from "react";
 
 import Device from "./class/device";
 import Home from "./screens/homeScreen";
+import AuthContextProvider, { AuthContext } from "./store/authContext";
 
 export const AppContext = createContext();
 
@@ -23,6 +24,7 @@ const App = () => {
   const [pickedDevice, setPickedDevice] = useState({});
 
   const [selectedSegment, setSelectedSegment] = useState("Light");
+
 
   useEffect(() => {
     console.log("App Log: devices");
@@ -71,9 +73,11 @@ const App = () => {
   );
 
   return (
-    <AppContext.Provider value={contextValue}>
-      <View style={styles.appContainer}>{screen}</View>
-    </AppContext.Provider>
+    <AuthContextProvider>
+      <AppContext.Provider value={contextValue}>
+        <View style={styles.appContainer}>{screen}</View>
+      </AppContext.Provider>
+    </AuthContextProvider>
   );
 };
 
