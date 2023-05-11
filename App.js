@@ -2,11 +2,13 @@ import { StyleSheet, View } from "react-native";
 
 import Welcome from "./screens/welcomeScreen";
 import Adjusting from "./screens/adjustingScreen";
-import { useState, createContext, useEffect, useMemo, useContext } from "react";
+import { useState, createContext, useEffect, useMemo } from "react";
 
 import Device from "./class/device";
 import Home from "./screens/homeScreen";
-import AuthContextProvider, { AuthContext } from "./store/authContext";
+import AuthContextProvider from "./store/authContext";
+
+import AIO_account from "./constances/adafruit";
 
 export const AppContext = createContext();
 
@@ -25,38 +27,55 @@ const App = () => {
 
   const [selectedSegment, setSelectedSegment] = useState("Light");
 
+  const [peopleCount, setPeopleCount] = useState(0);
 
   useEffect(() => {
     console.log("App Log: devices");
-    // console.log(devices);
   }, [devices]);
 
   useEffect(() => {
-    // Can't compare 2 objects by '==='
-    // Compare by keys of objects
-    if (Object.keys(pickedDevice).length != 0) {
-      console.log("App Log: pickedDevice:");
-      console.log(pickedDevice);
-
-      const index = devices.findIndex(
-        (item) => item.label === pickedDevice.label
-      );
-
-      setDevices((devicesList) => {
-        const newDeviceList = Object.create(devicesList);
-        newDeviceList.splice(index, 1, pickedDevice);
-        return newDeviceList;
-      });
+    for (let device of devices) {
+      device.setNumOfPeople(peopleCount);
+      if (!device.isManual) {
+        if (device.numOfPeople === 0) device.setPower(0);
+        else device.setPower(50);
+      }
     }
-  }, [pickedDevice]);
+  }, [peopleCount]);
 
-  let screen = !isLogged ? (
-    <Welcome />
-  ) : !isAdjusting ? (
-    <Home />
-  ) : (
-    <Adjusting />
-  );
+  useEffect(() => {
+    const mqtt = require("precompiled-mqtt");
+    const client = mqtt.connect("mqtts://io.adafruit.com/", {
+      username: AIO_account.username,
+      password: AIO_account.key,
+    });
+
+    const feedTopic = "nghiachutuan68/feeds/so-nguoi";
+
+    client.on("connect", () => {
+      console.log("MQTT Connected!");
+
+      client.subscribe(feedTopic, { qos: 1 }, (err) => {
+        if (err) {
+          console.error("Failed to subscribe to feed:", err);
+        } else {
+          console.log("Subscribed to feed successfully!");
+        }
+      });
+    });
+
+    client.on("message", (topic, message) => {
+      console.log("Received message:", message.toString());
+      let pCount = parseInt(message.toString());
+      setPeopleCount(pCount);
+    });
+  }, []);
+
+  if (!isLogged) {
+    screen = <Welcome />;
+  } else {
+    screen = !isAdjusting ? <Home /> : <Adjusting />;
+  }
 
   const contextValue = useMemo(
     () => ({

@@ -8,6 +8,9 @@ import { AppContext } from "../../App";
 
 const AdjustPicker = () => {
   const [fontLoaded, setFontLoaded] = useState(false);
+
+  const { devices, pickedDevice, setPickedDevice } = useContext(AppContext);
+
   const loadFonts = async () => {
     await Font.loadAsync({
       "SF-Pro-Display-RegularItalic": require("../../assets/fonts/sf-pro/SF-Pro-Display-RegularItalic.otf"),
@@ -19,8 +22,6 @@ const AdjustPicker = () => {
     loadFonts();
     return null;
   }
-
-  const { devices, pickedDevice, setPickedDevice } = useContext(AppContext);
 
   const options = devices;
 
