@@ -1,13 +1,48 @@
+import { useContext, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { AntDesign } from "react-native-vector-icons";
+import FontText from "../fontText/fontText";
+import { AuthContext } from "../../store/authContext";
+import { AppContext } from "../../App";
 
 const SettingBtn = () => {
+  const authCtx = useContext(AuthContext);
+
+  const { setIsLogged } = useContext(AppContext);
+
+  const [modalIsVisible, setModalIsVisible] = useState(false);
+
+  const pressSetting = () => {
+    setModalIsVisible((value) => !value);
+    console.log(modalIsVisible);
+  };
+
+  const pressLogOut = () => {
+    authCtx.logout();
+    if (!authCtx.isAuthenticated) setIsLogged(false);
+  };
+
   return (
-    <TouchableOpacity style={styles.settingBtn}>
-      <View style={[styles.btnFrame, styles.settingShadow]}>
-        <AntDesign name="setting" size={20} color="#000" />
-      </View>
-    </TouchableOpacity>
+    <View style={styles.settingBtn}>
+      <TouchableOpacity onPress={pressSetting}>
+        <View style={[styles.btnFrame, styles.settingShadow]}>
+          <AntDesign name="setting" size={20} color="#000" />
+        </View>
+      </TouchableOpacity>
+      {modalIsVisible && (
+        <TouchableOpacity
+          onPress={pressLogOut}
+          style={[styles.btnFrame, styles.settingOptions]}
+        >
+          <FontText
+            font="SF-Pro-Display-RegularItalic"
+            style={styles.settingOptionText}
+          >
+            Log Out
+          </FontText>
+        </TouchableOpacity>
+      )}
+    </View>
   );
 };
 
@@ -38,5 +73,17 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.1,
     shadowRadius: 10,
+  },
+  settingOptions: {
+    width: 100,
+    position: "absolute",
+    // top: 40,
+    right: 55,
+    overflow: "hidden",
+  },
+  settingOptionText: {
+    fontSize: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

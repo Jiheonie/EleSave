@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { View, StyleSheet, FlatList } from "react-native";
 import SegmentButton from "./segmentButton";
 import DeviceCard from "./deviceCard";

@@ -41,6 +41,7 @@ const App = () => {
         else device.setPower(50);
       }
     }
+    console.log(pickedDevice.power);
   }, [peopleCount]);
 
   useEffect(() => {
