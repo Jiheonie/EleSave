@@ -34,14 +34,18 @@ const App = () => {
   }, [devices]);
 
   useEffect(() => {
-    for (let device of devices) {
-      device.setNumOfPeople(peopleCount);
-      if (!device.isManual) {
-        if (device.numOfPeople === 0) device.setPower(0);
-        else device.setPower(50);
-      }
+    setDevices(
+      devices.map((device) => {
+        const newDevice = Object.create(device);
+        newDevice.setNumOfPeople(peopleCount);
+        newDevice.setPower(newDevice.numOfPeople === 0 ? 0 : 50);
+        return newDevice;
+      })
+    );
+
+    if (Object.keys(pickedDevice).length !== 0) {
+      console.log(pickedDevice.power);
     }
-    console.log(pickedDevice.power);
   }, [peopleCount]);
 
   useEffect(() => {
@@ -69,6 +73,8 @@ const App = () => {
       console.log("Received message:", message.toString());
       let pCount = parseInt(message.toString());
       setPeopleCount(pCount);
+      console.log("App Log: peopleCount:");
+      console.log(peopleCount);
     });
   }, []);
 
@@ -89,7 +95,7 @@ const App = () => {
       setPickedDevice,
       setIsAdjusting,
     }),
-    [devices, selectedSegment, pickedDevice]
+    [isLogged, devices, selectedSegment, pickedDevice]
   );
 
   return (

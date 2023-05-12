@@ -19,9 +19,11 @@ const SettingBtn = () => {
 
   const pressLogOut = () => {
     authCtx.logout();
-    if (!authCtx.isAuthenticated) setIsLogged(false);
+    console.log(authCtx.isAuthenticated);
   };
-
+  
+  if (!authCtx.isAuthenticated) setIsLogged(false);
+  
   return (
     <View style={styles.settingBtn}>
       <TouchableOpacity onPress={pressSetting}>

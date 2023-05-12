@@ -23,24 +23,6 @@ const AdjustPannel = () => {
     console.log("People counting changed!! log in pannel value: " + pickedDevice.numOfPeople);
   }, [pickedDevice.numOfPeople]);
 
-  // useEffect(() => {
-  //   if (!pickedDevice.isManual) {
-  //     if (pickedDevice.numOfPeople == 0) {
-  //       setPickedDevice((device) => {
-  //         const newDevice = Object.create(device);
-  //         newDevice.setPower(0);
-  //         return newDevice;
-  //       });
-  //     } else {
-  //       setPickedDevice((device) => {
-  //         const newDevice = Object.create(device);
-  //         newDevice.setPower(50);
-  //         return newDevice;
-  //       });
-  //     }
-  //   }
-  // }, [pickedDevice.numOfPeople, pickedDevice.isManual]);
-
   const handleUpButtonPressIn = () => {
     const newIntervalId = setInterval(() => {
       setPickedDevice((device) => {

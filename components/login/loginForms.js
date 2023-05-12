@@ -56,16 +56,16 @@ const LoginForms = () => {
     try {
       const token = await login(email, password);
       authCtx.authenticate(token);
-      console.log(authCtx.isAuthenticated)
+      console.log(authCtx.isAuthenticated);
     } catch (error) {
       Alert.alert("Login Failed", "Check Information input again!");
     }
   };
 
-  const submitHandler = (credentials) => {
+  const submitHandler = async (credentials) => {
     let { email, password } = credentials;
 
-    console.log(credentials)
+    console.log(credentials);
 
     email = email.trim();
     password = password.trim();
@@ -83,9 +83,9 @@ const LoginForms = () => {
     }
 
     loginHandler({ email, password });
-
-    if (authCtx.isAuthenticated) setIsLogged(true);
   };
+  
+  if (authCtx.isAuthenticated) setIsLogged(true);
 
   const loginDoneHandler = () => {
     submitHandler({ email: enteredEmail, password: enteredPassword });
