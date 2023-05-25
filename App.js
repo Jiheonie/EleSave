@@ -9,6 +9,7 @@ import Home from "./screens/homeScreen";
 import AuthContextProvider from "./store/authContext";
 
 import AIO_account from "./constances/adafruit";
+import { sendToAdafruitIO } from "./services/httpServices";
 
 export const AppContext = createContext();
 
@@ -38,7 +39,9 @@ const App = () => {
       devices.map((device) => {
         const newDevice = Object.create(device);
         newDevice.setNumOfPeople(peopleCount);
-        newDevice.setPower(newDevice.numOfPeople === 0 ? 0 : 50);
+        if (!newDevice.isManual)
+          newDevice.setPower(newDevice.numOfPeople === 0 ? 0 : 50);
+          sendToAdafruitIO(newDevice) 
         return newDevice;
       })
     );

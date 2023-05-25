@@ -7,13 +7,13 @@ const WeatherCondition = () => {
       <CondCard
         icon="water-percent"
         title="Inside Humidity"
-        value={40}
+        feedKey="do-am"
         unit="%"
       />
       <CondCard
         icon="temperature-celsius"
         title="Outside Temps."
-        value={25}
+        feedKey="nhiet-do"
         unit="°C"
       />
     </View>

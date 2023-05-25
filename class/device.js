@@ -11,6 +11,7 @@ class Device {
 
   switchMode = () => {
     this.isManual = !this.isManual;
+    console.log(this.isManual)
     return this;
   };
 

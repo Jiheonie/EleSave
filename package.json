@@ -22,7 +22,7 @@
     "mqtt": "^4.3.7",
     "precompiled-mqtt": "^4.3.14-beta",
     "react": "18.2.0",
-    "react-native": "0.71.7",
+    "react-native": "0.71.8",
     "react-native-drop-shadow": "^0.0.6",
     "react-native-inset-shadow": "^1.0.3",
     "react-native-linear-gradient": "^2.6.2",

@@ -49,7 +49,7 @@ const WeatherWidget = () => {
   });
 
   client.on("message", function (topic, message) {
-    console.log("Received message:", message.toString());
+    console.log("Received message of nhiet-do:", message.toString());
     setTemps(message.toString());
   });
 
